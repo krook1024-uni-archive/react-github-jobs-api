@@ -26,6 +26,7 @@ function App() {
         <Container className="my-3">
             <h1 className="mb-3">GitHub Jobs</h1>
             <SearchForm params={params} handleParamChange={handleParamChange} />
+
             <JobsPagination
                 page={page}
                 setPage={setPage}
@@ -45,11 +46,13 @@ function App() {
             {jobs.map(job => (
                 <Job key={job.id} job={job} />
             ))}
-            <JobsPagination
-                page={page}
-                setPage={setPage}
-                hasNextPage={hasNextPage}
-            />
+            {!loading && (
+                <JobsPagination
+                    page={page}
+                    setPage={setPage}
+                    hasNextPage={hasNextPage}
+                />
+            )}
         </Container>
     );
 }
