@@ -5,6 +5,7 @@ import { Container, Spinner } from 'react-bootstrap';
 import Job from './components/Job';
 import JobsPagination from './components/JobsPagination';
 import SearchForm from './components/SearchForm';
+import Header from './components/Header';
 
 function App() {
     const [params, setParams] = useState({ description: '', location: '' });
@@ -23,37 +24,42 @@ function App() {
     const { jobs, loading, error, hasNextPage } = useFetchJobs(params, page);
 
     return (
-        <Container className="my-3">
-            <h1 className="mb-3">GitHub Jobs</h1>
-            <SearchForm params={params} handleParamChange={handleParamChange} />
+        <>
+            <Header />
+            <Container className="my-3">
+                <SearchForm
+                    params={params}
+                    handleParamChange={handleParamChange}
+                />
 
-            <JobsPagination
-                page={page}
-                setPage={setPage}
-                hasNextPage={hasNextPage}
-            />
-            {loading && (
-                <Spinner
-                    animation="border"
-                    role="status"
-                    variant="primary"
-                    className="d-block mx-auto my-5"
-                >
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
-            )}
-            {error && <h1>Error. Try refreshing</h1>}
-            {jobs.map(job => (
-                <Job key={job.id} job={job} />
-            ))}
-            {!loading && (
                 <JobsPagination
                     page={page}
                     setPage={setPage}
                     hasNextPage={hasNextPage}
                 />
-            )}
-        </Container>
+                {loading && (
+                    <Spinner
+                        animation="border"
+                        role="status"
+                        variant="primary"
+                        className="d-block mx-auto my-5"
+                    >
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                )}
+                {error && <h1>Error. Try refreshing</h1>}
+                {jobs.map(job => (
+                    <Job key={job.id} job={job} />
+                ))}
+                {!loading && (
+                    <JobsPagination
+                        page={page}
+                        setPage={setPage}
+                        hasNextPage={hasNextPage}
+                    />
+                )}
+            </Container>
+        </>
     );
 }
 
